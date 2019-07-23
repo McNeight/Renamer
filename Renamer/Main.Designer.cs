@@ -1114,7 +1114,6 @@
         private BrightIdeasSoftware.OLVColumn olvColumn3;
         private BrightIdeasSoftware.OLVColumn olvColumn4;
         private BrightIdeasSoftware.OLVColumn olvColumn5;
-        private ModernFolderBrowserDialog.FolderBrowser folderBrowser;
         private DropdownButton.FlatButton buttonRevert;
         private System.Windows.Forms.ContextMenuStrip contextMenuSort;
         private System.Windows.Forms.ToolStripMenuItem naturalSortToolStripMenuItem;

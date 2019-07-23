@@ -33,13 +33,11 @@ namespace Renamer
         public Main()
         {
             InitializeComponent();
-            this.folderBrowser = new ModernFolderBrowserDialog.FolderBrowser(Models.Settings.IsUnderWine);
         }
 
         public Main(string defaultPath)
         {
             InitializeComponent();
-            this.folderBrowser = new ModernFolderBrowserDialog.FolderBrowser(Models.Settings.IsUnderWine);
 
             //For some reason %1 returns C:" when using right-click on hard drives
             //So we need to remove the extra double quotes and append a backslash
@@ -120,23 +118,29 @@ namespace Renamer
 
         private void buttonBrowseInput_Click(object sender, EventArgs e)
         {
-            while (true)
+            using (var folderBrowser = new ModernFolderBrowserDialog.FolderBrowser(Models.Settings.IsUnderWine))
             {
-                if (folderBrowser.ShowDialog() != DialogResult.OK) return;
+                while (true)
+                {
+                    if (folderBrowser.ShowDialog() != DialogResult.OK) return;
 
-                if (folderBrowser.SelectedPath.StartsWith(Environment.GetEnvironmentVariable("windir")))
-                    MessageBox.Show("The selected path is not allowed, please choose a different one.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    if (folderBrowser.SelectedPath.StartsWith(Environment.GetEnvironmentVariable("windir")))
+                        MessageBox.Show("The selected path is not allowed, please choose a different one.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-                else break;
+                    else break;
+                }
+
+                textBoxInputDir.Text = folderBrowser.SelectedPath;
             }
-
-            textBoxInputDir.Text = folderBrowser.SelectedPath;
         }        
 
         private void buttonBrowseOutput_Click(object sender, EventArgs e)
         {
-            if (folderBrowser.ShowDialog() != DialogResult.OK) return;
-            textBoxOutput.Text = folderBrowser.SelectedPath;
+            using (var folderBrowser = new ModernFolderBrowserDialog.FolderBrowser(Models.Settings.IsUnderWine))
+            {
+                if (folderBrowser.ShowDialog() != DialogResult.OK) return;
+                textBoxOutput.Text = folderBrowser.SelectedPath;
+            }
         }        
 
         private void textBoxFilter_TextChanged(object sender, EventArgs e)
